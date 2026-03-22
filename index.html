@@ -477,7 +477,7 @@
         border: none;
         border-radius: 0.4rem;
         cursor: pointer;
-        transition: background 0.2s, transform 0.1s;
+        transition: background 0.2s, color 0.2s, transform 0.1s;
         letter-spacing: 0.01em;
         text-align: center;
       }
@@ -491,9 +491,9 @@
       }
 
       tiro-magic-clipboard-button[data-state="pending"] {
-        background: #1e40af;
+        background: #2563eb;
         cursor: wait;
-        opacity: 0.85;
+        opacity: 0.75;
       }
 
       tiro-magic-clipboard-button[data-state="pending"]::before {
@@ -502,7 +502,7 @@
         width: 0.85em;
         height: 0.85em;
         margin-right: 0.5em;
-        border: 2px solid rgba(255, 255, 255, 0.3);
+        border: 2px solid rgba(255, 255, 255, 0.35);
         border-top-color: #fff;
         border-radius: 50%;
         vertical-align: -0.1em;
@@ -514,7 +514,8 @@
       }
 
       tiro-magic-clipboard-button[data-state="success"] {
-        background: #16a34a;
+        background: #7dd3fc;
+        color: #0d2137;
         cursor: default;
       }
 
@@ -840,7 +841,7 @@
               </span>
             </div>
             <div class="card__body">
-              <tiro-magic-clipboard for="calculator-form">
+              <tiro-magic-clipboard id="magic-clipboard" for="calc-form-tri">
                 <tiro-magic-clipboard-button>Autofill calculator</tiro-magic-clipboard-button>
               </tiro-magic-clipboard>
             </div>
@@ -885,11 +886,7 @@
             </div>
           </div>
           <div class="card__body">
-            <tiro-form-filler
-              id="calculator-form"
-              sdc-endpoint-address="https://sdc.tiro.health/fhir/r5"
-              compact-grouping
-            ></tiro-form-filler>
+            <div id="calc-forms"></div>
           </div>
 
           <!-- Result panel (fades in on tiro-update) -->
@@ -939,8 +936,968 @@
         {
           id: 'tri',
           label: 'TRI Score',
-          url: 'http://templates.tiro.health/templates/718620a797d84dd58bd2c92d395e0e90',
-          resultCount: 3
+          resultCount: 3,
+          questionnaire: {
+  "status": "active",
+  "version": "2.0.0",
+  "resourceType": "Questionnaire",
+  "useContext": [
+    {
+      "code": {
+        "code": "program",
+        "system": "http://terminology.hl7.org/CodeSystem/usage-context-type",
+        "display": "Project"
+      },
+      "valueReference": {
+        "display": "Public calculators",
+        "type": "Group",
+        "reference": "Group/1424"
+      }
+    },
+    {
+      "code": {
+        "code": "user",
+        "system": "http://terminology.hl7.org/CodeSystem/usage-context-type",
+        "display": "User"
+      },
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "394579002",
+            "display": "Cardiologie"
+          }
+        ]
+      }
+    }
+  ],
+  "name": "TRI score",
+  "url": "http://templates.tiro.health/templates/718620a797d84dd58bd2c92d395e0e90",
+  "experimental": false,
+  "description": "",
+  "language": "nl-BE",
+  "subjectType": "Patient",
+  "extension": [
+    {
+      "url": "http://fhir.tiro.health/StructureDefinition/narrative-template",
+      "valueExpression": {
+        "expression": "{%- assign QuestionnaireTitle = \"TRI score\" -%}\n<h1>{{ QuestionnaireTitle }}</h1>\n{%- assign tri_score = QuestionnaireResponse | fhirpath : \"QuestionnaireResponse.item.where(linkId='019cfab3-f976-799c-9d87-05e72525ce2a')\" | first -%}\n{%- render \"019cfab3-f976-799c-9d87-05e72525ce2a\", item:tri_score -%}\n",
+        "language": "text/liquid",
+        "reference": "http://templates.tiro.health/templates/718620a797d84dd58bd2c92d395e0e90/narrativeTemplate"
+      }
+    },
+    {
+      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-assembledFrom",
+      "valueCanonical": "http://templates.tiro.health/components/tri-score|1.0.0"
+    }
+  ],
+  "item": [
+    {
+      "linkId": "019cfab3-f976-799c-9d87-05e72525ce2a",
+      "type": "group",
+      "text": "TRI score",
+      "code": [
+        {
+          "system": "http://templates.tiro.health/templates/718620a797d84dd58bd2c92d395e0e90/technical-key",
+          "code": "tri_score",
+          "display": "tri_score"
+        }
+      ],
+      "item": [
+        {
+          "linkId": "019d0c45-9e72-7bb4-8cc7-b8410367e390",
+          "type": "group",
+          "text": "TRI score",
+          "code": [
+            {
+              "system": "http://templates.tiro.health/templates/718620a797d84dd58bd2c92d395e0e90/technical-key",
+              "code": "tri_score_1",
+              "display": "tri_score_1"
+            }
+          ],
+          "item": [
+            {
+              "linkId": "019d0c45-a324-7bb4-8cc7-dc99808cffbb",
+              "type": "coding",
+              "text": "Leeftijd ≥ 70 jaar",
+              "code": [
+                {
+                  "system": "http://templates.tiro.health/templates/718620a797d84dd58bd2c92d395e0e90/technical-key",
+                  "code": "leeftijd_70_jaar",
+                  "display": "leeftijd_70_jaar"
+                }
+              ],
+              "repeats": false,
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "text": "chips",
+                    "coding": [
+                      {
+                        "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control",
+                        "code": "chips"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://fhir.tiro.health/StructureDefinition/narrative-template-snippet",
+                  "valueExpression": {
+                    "name": "019d0c45-a324-7bb4-8cc7-dc99808cffbb",
+                    "expression": "{%- assign Question = item.text | default: item.linkId -%}\n{%- assign Answer = item.answer[0].valueCoding.display -%}\n{%- if Answer -%}\n<div>{{Question}}: {{ Answer }}</div>\n{%- endif -%}\n",
+                    "language": "text/liquid"
+                  }
+                }
+              ],
+              "answerConstraint": "optionsOnly",
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "system": "http://snomed.info/sct",
+                    "code": "373067005",
+                    "display": "nee"
+                  },
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/itemWeight",
+                      "valueDecimal": "0"
+                    }
+                  ]
+                },
+                {
+                  "valueCoding": {
+                    "system": "http://snomed.info/sct",
+                    "code": "373066001",
+                    "display": "ja"
+                  },
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/itemWeight",
+                      "valueDecimal": "1"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "019d0c45-a324-7bb4-8cc7-e8cc75304592",
+              "type": "coding",
+              "text": "NYHA functionele klasse III–IV",
+              "code": [
+                {
+                  "system": "http://templates.tiro.health/templates/718620a797d84dd58bd2c92d395e0e90/technical-key",
+                  "code": "nyha_functionele_klasse_iii_iv",
+                  "display": "nyha_functionele_klasse_iii_iv"
+                }
+              ],
+              "repeats": false,
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "text": "chips",
+                    "coding": [
+                      {
+                        "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control",
+                        "code": "chips"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://fhir.tiro.health/StructureDefinition/narrative-template-snippet",
+                  "valueExpression": {
+                    "name": "019d0c45-a324-7bb4-8cc7-e8cc75304592",
+                    "expression": "{%- assign Question = item.text | default: item.linkId -%}\n{%- assign Answer = item.answer[0].valueCoding.display -%}\n{%- if Answer -%}\n<div>{{Question}}: {{ Answer }}</div>\n{%- endif -%}\n",
+                    "language": "text/liquid"
+                  }
+                }
+              ],
+              "answerConstraint": "optionsOnly",
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "system": "http://snomed.info/sct",
+                    "code": "373067005",
+                    "display": "nee"
+                  },
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/itemWeight",
+                      "valueDecimal": "0"
+                    }
+                  ]
+                },
+                {
+                  "valueCoding": {
+                    "system": "http://snomed.info/sct",
+                    "code": "373066001",
+                    "display": "ja"
+                  },
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/itemWeight",
+                      "valueDecimal": "1"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "019d0c45-a324-7bb4-8cc7-f9d189cc5452",
+              "type": "coding",
+              "text": "Tekenen van rechtszijdig hartfalen",
+              "code": [
+                {
+                  "system": "http://templates.tiro.health/templates/718620a797d84dd58bd2c92d395e0e90/technical-key",
+                  "code": "tekenen_van_rechtszijdig_hartfalen",
+                  "display": "tekenen_van_rechtszijdig_hartfalen"
+                }
+              ],
+              "item": [
+                {
+                  "linkId": "019d0c45-a324-7bb4-8cc7-f9d189cc5452_help_019d0c46",
+                  "type": "display",
+                  "text": "<p><span style=\"white-space: pre-wrap;\">Uitgesproken perifeer oedeem, ascites en/of ernstige stuwing van de halsader</span></p>",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "text": "help",
+                        "coding": [
+                          {
+                            "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control",
+                            "code": "help"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/rendering-markdown",
+                      "valueMarkdown": "<p><span style=\"white-space: pre-wrap;\">Uitgesproken perifeer oedeem, ascites en/of ernstige stuwing van de halsader</span></p>"
+                    }
+                  ]
+                }
+              ],
+              "repeats": false,
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "text": "chips",
+                    "coding": [
+                      {
+                        "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control",
+                        "code": "chips"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://fhir.tiro.health/StructureDefinition/narrative-template-snippet",
+                  "valueExpression": {
+                    "name": "019d0c45-a324-7bb4-8cc7-f9d189cc5452",
+                    "expression": "{%- assign Question = item.text | default: item.linkId -%}\n{%- assign Answer = item.answer[0].valueCoding.display -%}\n{%- if Answer -%}\n<div>{{Question}}: {{ Answer }}</div>\n{%- endif -%}\n",
+                    "language": "text/liquid"
+                  }
+                }
+              ],
+              "answerConstraint": "optionsOnly",
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "system": "http://snomed.info/sct",
+                    "code": "373067005",
+                    "display": "nee"
+                  },
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/itemWeight",
+                      "valueDecimal": "0"
+                    }
+                  ]
+                },
+                {
+                  "valueCoding": {
+                    "system": "http://snomed.info/sct",
+                    "code": "373066001",
+                    "display": "ja"
+                  },
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/itemWeight",
+                      "valueDecimal": "2"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "019d0c45-a324-7bb4-8cc8-0b14bd85e432",
+              "type": "coding",
+              "text": "Furosemide dagdosis ≥ 125 mg",
+              "code": [
+                {
+                  "system": "http://templates.tiro.health/templates/718620a797d84dd58bd2c92d395e0e90/technical-key",
+                  "code": "furosemide_dagdosis_125_mg",
+                  "display": "furosemide_dagdosis_125_mg"
+                }
+              ],
+              "repeats": false,
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "text": "chips",
+                    "coding": [
+                      {
+                        "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control",
+                        "code": "chips"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://fhir.tiro.health/StructureDefinition/narrative-template-snippet",
+                  "valueExpression": {
+                    "name": "019d0c45-a324-7bb4-8cc8-0b14bd85e432",
+                    "expression": "{%- assign Question = item.text | default: item.linkId -%}\n{%- assign Answer = item.answer[0].valueCoding.display -%}\n{%- if Answer -%}\n<div>{{Question}}: {{ Answer }}</div>\n{%- endif -%}\n",
+                    "language": "text/liquid"
+                  }
+                }
+              ],
+              "answerConstraint": "optionsOnly",
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "system": "http://snomed.info/sct",
+                    "code": "373067005",
+                    "display": "nee"
+                  },
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/itemWeight",
+                      "valueDecimal": "0"
+                    }
+                  ]
+                },
+                {
+                  "valueCoding": {
+                    "system": "http://snomed.info/sct",
+                    "code": "373066001",
+                    "display": "ja"
+                  },
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/itemWeight",
+                      "valueDecimal": "2"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "019d0c45-a324-7bb4-8cc8-1ddd45ccc7d5",
+              "type": "coding",
+              "text": "GFR < 30 mL/min",
+              "code": [
+                {
+                  "system": "http://templates.tiro.health/templates/718620a797d84dd58bd2c92d395e0e90/technical-key",
+                  "code": "gfr_30_ml_min",
+                  "display": "gfr_30_ml_min"
+                }
+              ],
+              "item": [
+                {
+                  "linkId": "019d0c45-a324-7bb4-8cc8-1ddd45ccc7d5_help_019d0c46",
+                  "type": "display",
+                  "text": "<p><span style=\"white-space: pre-wrap;\">Geschatte glomerulaire filtratiesnelheid via de Cockcroft–Gault formule</span></p>",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "text": "help",
+                        "coding": [
+                          {
+                            "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control",
+                            "code": "help"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/rendering-markdown",
+                      "valueMarkdown": "<p><span style=\"white-space: pre-wrap;\">Geschatte glomerulaire filtratiesnelheid via de Cockcroft–Gault formule</span></p>"
+                    }
+                  ]
+                }
+              ],
+              "repeats": false,
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "text": "chips",
+                    "coding": [
+                      {
+                        "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control",
+                        "code": "chips"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://fhir.tiro.health/StructureDefinition/narrative-template-snippet",
+                  "valueExpression": {
+                    "name": "019d0c45-a324-7bb4-8cc8-1ddd45ccc7d5",
+                    "expression": "{%- assign Question = item.text | default: item.linkId -%}\n{%- assign Answer = item.answer[0].valueCoding.display -%}\n{%- if Answer -%}\n<div>{{Question}}: {{ Answer }}</div>\n{%- endif -%}\n",
+                    "language": "text/liquid"
+                  }
+                }
+              ],
+              "answerConstraint": "optionsOnly",
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "system": "http://snomed.info/sct",
+                    "code": "373067005",
+                    "display": "nee"
+                  },
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/itemWeight",
+                      "valueDecimal": "0"
+                    }
+                  ]
+                },
+                {
+                  "valueCoding": {
+                    "system": "http://snomed.info/sct",
+                    "code": "373066001",
+                    "display": "ja"
+                  },
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/itemWeight",
+                      "valueDecimal": "2"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "019d0c45-a324-7bb4-8cc8-2dc03a13d144",
+              "type": "coding",
+              "text": "Verhoogd totaal bilirubine",
+              "code": [
+                {
+                  "system": "http://templates.tiro.health/templates/718620a797d84dd58bd2c92d395e0e90/technical-key",
+                  "code": "verhoogd_totaal_bilirubine",
+                  "display": "verhoogd_totaal_bilirubine"
+                }
+              ],
+              "item": [
+                {
+                  "linkId": "019d0c45-a324-7bb4-8cc8-2dc03a13d144_help_019d0c46",
+                  "type": "display",
+                  "text": "<p><span style=\"white-space: pre-wrap;\">Boven de bovenste normaalgrens (> 21 µmol/L)</span></p>",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "text": "help",
+                        "coding": [
+                          {
+                            "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control",
+                            "code": "help"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/rendering-markdown",
+                      "valueMarkdown": "<p><span style=\"white-space: pre-wrap;\">Boven de bovenste normaalgrens (> 21 µmol/L)</span></p>"
+                    }
+                  ]
+                }
+              ],
+              "repeats": false,
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "text": "chips",
+                    "coding": [
+                      {
+                        "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control",
+                        "code": "chips"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://fhir.tiro.health/StructureDefinition/narrative-template-snippet",
+                  "valueExpression": {
+                    "name": "019d0c45-a324-7bb4-8cc8-2dc03a13d144",
+                    "expression": "{%- assign Question = item.text | default: item.linkId -%}\n{%- assign Answer = item.answer[0].valueCoding.display -%}\n{%- if Answer -%}\n<div>{{Question}}: {{ Answer }}</div>\n{%- endif -%}\n",
+                    "language": "text/liquid"
+                  }
+                }
+              ],
+              "answerConstraint": "optionsOnly",
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "system": "http://snomed.info/sct",
+                    "code": "373067005",
+                    "display": "nee"
+                  },
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/itemWeight",
+                      "valueDecimal": "0"
+                    }
+                  ]
+                },
+                {
+                  "valueCoding": {
+                    "system": "http://snomed.info/sct",
+                    "code": "373066001",
+                    "display": "ja"
+                  },
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/itemWeight",
+                      "valueDecimal": "2"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "019d0c45-a324-7bb4-8cc8-3adee4a27cc0",
+              "type": "coding",
+              "text": "LVEF < 60%",
+              "code": [
+                {
+                  "system": "http://templates.tiro.health/templates/718620a797d84dd58bd2c92d395e0e90/technical-key",
+                  "code": "lvef_60",
+                  "display": "lvef_60"
+                }
+              ],
+              "repeats": false,
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "text": "chips",
+                    "coding": [
+                      {
+                        "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control",
+                        "code": "chips"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://fhir.tiro.health/StructureDefinition/narrative-template-snippet",
+                  "valueExpression": {
+                    "name": "019d0c45-a324-7bb4-8cc8-3adee4a27cc0",
+                    "expression": "{%- assign Question = item.text | default: item.linkId -%}\n{%- assign Answer = item.answer[0].valueCoding.display -%}\n{%- if Answer -%}\n<div>{{Question}}: {{ Answer }}</div>\n{%- endif -%}\n",
+                    "language": "text/liquid"
+                  }
+                }
+              ],
+              "answerConstraint": "optionsOnly",
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "system": "http://snomed.info/sct",
+                    "code": "373067005",
+                    "display": "nee"
+                  },
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/itemWeight",
+                      "valueDecimal": "0"
+                    }
+                  ]
+                },
+                {
+                  "valueCoding": {
+                    "system": "http://snomed.info/sct",
+                    "code": "373066001",
+                    "display": "ja"
+                  },
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/itemWeight",
+                      "valueDecimal": "1"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "019d0c45-a324-7bb4-8cc8-4a300e6e70b0",
+              "type": "coding",
+              "text": "Matige/ernstige RV-dysfunctie",
+              "code": [
+                {
+                  "system": "http://templates.tiro.health/templates/718620a797d84dd58bd2c92d395e0e90/technical-key",
+                  "code": "matige_ernstige_rv-dysfunctie",
+                  "display": "matige_ernstige_rv-dysfunctie"
+                }
+              ],
+              "item": [
+                {
+                  "linkId": "019d0c45-a324-7bb4-8cc8-4a300e6e70b0_help_019d0c46",
+                  "type": "display",
+                  "text": "<p><span style=\"white-space: pre-wrap;\">TAPSE &lt; 17 mm, S' &lt; 9,5 cm/s en/of duidelijk verminderde FAC bij visuele beoordeling</span></p>",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "text": "help",
+                        "coding": [
+                          {
+                            "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control",
+                            "code": "help"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/rendering-markdown",
+                      "valueMarkdown": "<p><span style=\"white-space: pre-wrap;\">TAPSE &lt; 17 mm, S' &lt; 9,5 cm/s en/of duidelijk verminderde FAC bij visuele beoordeling</span></p>"
+                    }
+                  ]
+                }
+              ],
+              "repeats": false,
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "text": "chips",
+                    "coding": [
+                      {
+                        "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control",
+                        "code": "chips"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://fhir.tiro.health/StructureDefinition/narrative-template-snippet",
+                  "valueExpression": {
+                    "name": "019d0c45-a324-7bb4-8cc8-4a300e6e70b0",
+                    "expression": "{%- assign Question = item.text | default: item.linkId -%}\n{%- assign Answer = item.answer[0].valueCoding.display -%}\n{%- if Answer -%}\n<div>{{Question}}: {{ Answer }}</div>\n{%- endif -%}\n",
+                    "language": "text/liquid"
+                  }
+                }
+              ],
+              "answerConstraint": "optionsOnly",
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "system": "http://snomed.info/sct",
+                    "code": "373067005",
+                    "display": "nee"
+                  },
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/itemWeight",
+                      "valueDecimal": "0"
+                    }
+                  ]
+                },
+                {
+                  "valueCoding": {
+                    "system": "http://snomed.info/sct",
+                    "code": "373066001",
+                    "display": "ja"
+                  },
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/itemWeight",
+                      "valueDecimal": "1"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "019d0c45-a324-7bb4-8cc8-59f3fed27fa9",
+              "type": "decimal",
+              "text": "TRI-SCORE",
+              "code": [
+                {
+                  "system": "http://templates.tiro.health/templates/718620a797d84dd58bd2c92d395e0e90/technical-key",
+                  "code": "tri-score",
+                  "display": "tri-score"
+                }
+              ],
+              "repeats": false,
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression",
+                  "valueExpression": {
+                    "expression": "%totalScore",
+                    "language": "text/fhirpath"
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "text": "decimal-field",
+                    "coding": [
+                      {
+                        "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control",
+                        "code": "decimal-field"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://fhir.tiro.health/StructureDefinition/narrative-template-snippet",
+                  "valueExpression": {
+                    "name": "019d0c45-a324-7bb4-8cc8-59f3fed27fa9",
+                    "expression": "{%- assign Question = item.text | default: item.linkId -%}\n{%- assign Answer_display = item.answer[0].valueDecimal -%}\n{%- assign Answer_unit = item | unit -%}\n{%- if Answer_display -%}\n{%- assign Answer = Answer_display | append: ' ' | append: Answer_unit -%}\n{%- endif -%}\n{%- if Answer -%}\n<div>{{Question}}: {{ Answer }}</div>\n{%- endif -%}\n",
+                    "language": "text/liquid"
+                  }
+                },
+                {
+                  "url": "http://fhir.tiro.health/StructureDefinition/questionnaire-item-includeInGroupSummary",
+                  "valueBoolean": true
+                }
+              ]
+            },
+            {
+              "linkId": "019d0c45-a324-7bb4-8cc8-69d1baf72f69",
+              "type": "coding",
+              "text": "Risicocategorie",
+              "code": [
+                {
+                  "system": "http://templates.tiro.health/templates/718620a797d84dd58bd2c92d395e0e90/technical-key",
+                  "code": "risicocategorie",
+                  "display": "risicocategorie"
+                }
+              ],
+              "repeats": false,
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression",
+                  "valueExpression": {
+                    "expression": "iif(%totalScore.empty(), {}, (%isLow | %isIntermediate | %isHigh))",
+                    "language": "text/fhirpath"
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "text": "chips",
+                    "coding": [
+                      {
+                        "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control",
+                        "code": "chips"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://fhir.tiro.health/StructureDefinition/narrative-template-snippet",
+                  "valueExpression": {
+                    "name": "019d0c45-a324-7bb4-8cc8-69d1baf72f69",
+                    "expression": "{%- assign Question = item.text | default: item.linkId -%}\n{%- assign Answer = item.answer[0].valueCoding.display -%}\n{%- if Answer -%}\n<div>{{Question}}: {{ Answer }}</div>\n{%- endif -%}\n",
+                    "language": "text/liquid"
+                  }
+                },
+                {
+                  "url": "http://fhir.tiro.health/StructureDefinition/questionnaire-item-includeInGroupSummary",
+                  "valueBoolean": true
+                }
+              ],
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "system": "https://snomed.info/sct",
+                    "code": "62482003",
+                    "display": "laag"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "system": "https://snomed.info/sct",
+                    "code": "11896004",
+                    "display": "intermediair"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "system": "https://snomed.info/sct",
+                    "code": "75540009",
+                    "display": "hoog"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "019d0c45-a324-7bb4-8cc8-79a49c797509",
+              "type": "decimal",
+              "text": "Geschatte intramurale mortaliteit",
+              "code": [
+                {
+                  "system": "http://templates.tiro.health/templates/718620a797d84dd58bd2c92d395e0e90/technical-key",
+                  "code": "geschatte_intramurale_mortaliteit",
+                  "display": "geschatte_intramurale_mortaliteit"
+                }
+              ],
+              "repeats": false,
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression",
+                  "valueExpression": {
+                    "expression": "%mortalityPct",
+                    "language": "text/fhirpath"
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "text": "decimal-field",
+                    "coding": [
+                      {
+                        "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control",
+                        "code": "decimal-field"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://fhir.tiro.health/StructureDefinition/narrative-template-snippet",
+                  "valueExpression": {
+                    "name": "019d0c45-a324-7bb4-8cc8-79a49c797509",
+                    "expression": "{%- assign Question = item.text | default: item.linkId -%}\n{%- assign Answer_display = item.answer[0].valueDecimal -%}\n{%- assign Answer_unit = item | unit -%}\n{%- if Answer_display -%}\n{%- assign Answer = Answer_display | append: ' ' | append: Answer_unit -%}\n{%- endif -%}\n{%- if Answer -%}\n<div>{{Question}}: {{ Answer }}</div>\n{%- endif -%}\n",
+                    "language": "text/liquid"
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-unit",
+                  "valueCoding": {
+                    "system": "http://unitsofmeasure.org",
+                    "code": "%",
+                    "display": "%"
+                  }
+                },
+                {
+                  "url": "http://fhir.tiro.health/StructureDefinition/questionnaire-item-includeInGroupSummary",
+                  "valueBoolean": true
+                }
+              ]
+            }
+          ],
+          "repeats": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/variable",
+              "valueExpression": {
+                "expression": "item.where(text = 'Leeftijd ≥ 70 jaar' or text = 'NYHA functionele klasse III–IV' or text = 'Tekenen van rechtszijdig hartfalen' or text = 'Furosemide dagdosis ≥ 125 mg' or text = 'GFR < 30 mL/min' or text = 'Verhoogd totaal bilirubine' or text = 'LVEF < 60%' or text = 'Matige/ernstige RV-dysfunctie').answer.value.weight().sum()",
+                "language": "text/fhirpath",
+                "name": "totalScore"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/variable",
+              "valueExpression": {
+                "expression": "%qItem.item.where(text = 'Risicocategorie').answerOption.value",
+                "language": "text/fhirpath",
+                "name": "riskOptions"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/variable",
+              "valueExpression": {
+                "expression": "iif(%totalScore <= 3, %riskOptions.where(code = '62482003'), {})",
+                "language": "text/fhirpath",
+                "name": "isLow"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/variable",
+              "valueExpression": {
+                "expression": "iif(%totalScore >= 4 and %totalScore <= 5, %riskOptions.where(code = '11896004'), {})",
+                "language": "text/fhirpath",
+                "name": "isIntermediate"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/variable",
+              "valueExpression": {
+                "expression": "iif(%totalScore >= 6, %riskOptions.where(code = '75540009'), {})",
+                "language": "text/fhirpath",
+                "name": "isHigh"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/variable",
+              "valueExpression": {
+                "expression": "iif(%totalScore.empty(), {}, iif(%totalScore = 0, 1, iif(%totalScore = 1, 2, iif(%totalScore = 2, 3, iif(%totalScore = 3, 5, iif(%totalScore = 4, 8, iif(%totalScore = 5, 14, iif(%totalScore = 6, 22, iif(%totalScore = 7, 34, iif(%totalScore = 8, 48, 65))))))))))",
+                "language": "text/fhirpath",
+                "name": "mortalityPct"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "text": "list",
+                "coding": [
+                  {
+                    "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control",
+                    "code": "list"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://fhir.tiro.health/StructureDefinition/narrative-template-snippet",
+              "valueExpression": {
+                "name": "019d0c45-9e72-7bb4-8cc7-b8410367e390",
+                "expression": "{%- assign leeftijd_70_jaar = item | fhirpath : \"item.where(linkId='019d0c45-a324-7bb4-8cc7-dc99808cffbb')\" | first -%}\n{%- assign nyha_functionele_klasse_iii_iv = item | fhirpath : \"item.where(linkId='019d0c45-a324-7bb4-8cc7-e8cc75304592')\" | first -%}\n{%- assign tekenen_van_rechtszijdig_hartfalen = item | fhirpath : \"item.where(linkId='019d0c45-a324-7bb4-8cc7-f9d189cc5452')\" | first -%}\n{%- assign furosemide_dagdosis_125_mg = item | fhirpath : \"item.where(linkId='019d0c45-a324-7bb4-8cc8-0b14bd85e432')\" | first -%}\n{%- assign gfr_30_ml_min = item | fhirpath : \"item.where(linkId='019d0c45-a324-7bb4-8cc8-1ddd45ccc7d5')\" | first -%}\n{%- assign verhoogd_totaal_bilirubine = item | fhirpath : \"item.where(linkId='019d0c45-a324-7bb4-8cc8-2dc03a13d144')\" | first -%}\n{%- assign lvef_60 = item | fhirpath : \"item.where(linkId='019d0c45-a324-7bb4-8cc8-3adee4a27cc0')\" | first -%}\n{%- assign matige_ernstige_rv-dysfunctie = item | fhirpath : \"item.where(linkId='019d0c45-a324-7bb4-8cc8-4a300e6e70b0')\" | first -%}\n{%- assign tri-score = item | fhirpath : \"item.where(linkId='019d0c45-a324-7bb4-8cc8-59f3fed27fa9')\" | first -%}\n{%- assign risicocategorie = item | fhirpath : \"item.where(linkId='019d0c45-a324-7bb4-8cc8-69d1baf72f69')\" | first -%}\n{%- assign geschatte_intramurale_mortaliteit = item | fhirpath : \"item.where(linkId='019d0c45-a324-7bb4-8cc8-79a49c797509')\" | first -%}\n{%- if item.text -%}\n{%- assign GroupTitle = item.text -%}\n<h2>{{ GroupTitle }}</h2>\n{%- endif -%}\n{%- render \"019d0c45-a324-7bb4-8cc7-dc99808cffbb\", item:leeftijd_70_jaar -%}\n{%- render \"019d0c45-a324-7bb4-8cc7-e8cc75304592\", item:nyha_functionele_klasse_iii_iv -%}\n{%- render \"019d0c45-a324-7bb4-8cc7-f9d189cc5452\", item:tekenen_van_rechtszijdig_hartfalen -%}\n{%- render \"019d0c45-a324-7bb4-8cc8-0b14bd85e432\", item:furosemide_dagdosis_125_mg -%}\n{%- render \"019d0c45-a324-7bb4-8cc8-1ddd45ccc7d5\", item:gfr_30_ml_min -%}\n{%- render \"019d0c45-a324-7bb4-8cc8-2dc03a13d144\", item:verhoogd_totaal_bilirubine -%}\n{%- render \"019d0c45-a324-7bb4-8cc8-3adee4a27cc0\", item:lvef_60 -%}\n{%- render \"019d0c45-a324-7bb4-8cc8-4a300e6e70b0\", item:matige_ernstige_rv-dysfunctie -%}\n{%- render \"019d0c45-a324-7bb4-8cc8-59f3fed27fa9\", item:tri-score -%}\n{%- render \"019d0c45-a324-7bb4-8cc8-69d1baf72f69\", item:risicocategorie -%}\n{%- render \"019d0c45-a324-7bb4-8cc8-79a49c797509\", item:geschatte_intramurale_mortaliteit -%}\n",
+                "language": "text/liquid"
+              }
+            }
+          ]
+        }
+      ],
+      "repeats": false,
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "text": "block",
+            "coding": [
+              {
+                "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control",
+                "code": "block"
+              }
+            ]
+          }
+        },
+        {
+          "url": "http://fhir.tiro.health/StructureDefinition/narrative-template-snippet",
+          "valueExpression": {
+            "name": "019cfab3-f976-799c-9d87-05e72525ce2a",
+            "expression": "{%- assign tri_score_1 = item | fhirpath : \"item.where(linkId='019d0c45-9e72-7bb4-8cc7-b8410367e390')\" | first -%}\n{%- if item.text -%}\n{%- assign GroupTitle = item.text -%}\n<h2>{{ GroupTitle }}</h2>\n{%- endif -%}\n{%- render \"019d0c45-9e72-7bb4-8cc7-b8410367e390\", item:tri_score_1 -%}\n",
+            "language": "text/liquid"
+          }
+        }
+      ]
+    }
+  ]
+}
+
         },
         {
           id: 'hasbled',
@@ -959,11 +1916,89 @@
           label: 'CHA\u2082DS\u2082-VASc Score',
           url: 'http://templates.tiro.health/templates/9f1f296ba5ae415f97c8e71464c402df',
           resultCount: 1
+        },
+        {
+          id: 'bmi',
+          label: 'BMI',
+          resultCount: 1,
+          questionnaire: {
+            "resourceType": "Questionnaire",
+            "status": "active",
+            "title": "BMI Calculator",
+            "language": "en",
+            "item": [
+              {
+                "linkId": "weight",
+                "type": "decimal",
+                "text": "Weight",
+                "required": true,
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                    "valueCodeableConcept": {
+                      "text": "textfield",
+                      "coding": [{ "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control", "code": "textfield" }]
+                    }
+                  },
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-unit",
+                    "valueCoding": { "system": "http://unitsofmeasure.org", "code": "kg", "display": "kg" }
+                  },
+                  { "url": "http://hl7.org/fhir/StructureDefinition/entryFormat", "valueString": "e.g. 72" }
+                ]
+              },
+              {
+                "linkId": "height",
+                "type": "decimal",
+                "text": "Height",
+                "required": true,
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                    "valueCodeableConcept": {
+                      "text": "textfield",
+                      "coding": [{ "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control", "code": "textfield" }]
+                    }
+                  },
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-unit",
+                    "valueCoding": { "system": "http://unitsofmeasure.org", "code": "cm", "display": "cm" }
+                  },
+                  { "url": "http://hl7.org/fhir/StructureDefinition/entryFormat", "valueString": "e.g. 175" }
+                ]
+              },
+              {
+                "linkId": "bmi",
+                "type": "decimal",
+                "text": "BMI",
+                "readOnly": true,
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                    "valueCodeableConcept": {
+                      "text": "textfield",
+                      "coding": [{ "system": "http://fhir.tiro.health/CodeSystem/tiro-questionnaire-item-control", "code": "textfield" }]
+                    }
+                  },
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-unit",
+                    "valueCoding": { "system": "http://unitsofmeasure.org", "code": "kg/m2", "display": "kg/m2" }
+                  },
+                  {
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression",
+                    "valueExpression": {
+                      "language": "text/fhirpath",
+                      "expression": "iif(%resource.item.where(linkId='weight').answer.value.exists() and %resource.item.where(linkId='height').answer.value.exists() and %resource.item.where(linkId='height').answer.value > 0, (%resource.item.where(linkId='weight').answer.value / (%resource.item.where(linkId='height').answer.value * 0.01).power(2)).round(1), {})"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
         }
       ];
 
       // ---- Elements ----
-      const form            = document.getElementById('calculator-form');
       const resultPanel     = document.getElementById('result-panel');
       const resultItems     = document.getElementById('result-items');
       const copyBtn         = document.getElementById('copy-btn');
@@ -987,10 +2022,41 @@
         setTimeout(() => banner.remove(), 210);
       });
 
+      // ---- Init all form-fillers once at page load ----
+      // Each element is created, its questionnaire injected as a child (for inline)
+      // or attribute (for URL-based), and only THEN appended to the DOM — so the
+      // component always initialises with its questionnaire already present,
+      // exactly as bmi.html does it statically.
+      const calcForms = document.getElementById('calc-forms');
+      const clipboard  = document.getElementById('magic-clipboard');
+
+      CALCULATORS.forEach(calc => {
+        const ff = document.createElement('tiro-form-filler');
+        ff.id = 'calc-form-' + calc.id;
+        ff.setAttribute('sdc-endpoint-address', 'https://sdc.tiro.health/fhir/r5');
+        ff.setAttribute('compact-grouping', '');
+        ff.hidden = true;
+
+        if (calc.url) {
+          ff.setAttribute('questionnaire', calc.url);
+        } else if (calc.questionnaire) {
+          const script = document.createElement('script');
+          script.type = 'application/fhir+json';
+          script.setAttribute('slot', 'questionnaire');
+          script.textContent = JSON.stringify(calc.questionnaire);
+          ff.appendChild(script);
+        }
+
+        ff.addEventListener('tiro-update', e => renderResults(e.detail?.response));
+        calcForms.appendChild(ff);
+      });
+
       // ---- Load calculator ----
       function loadCalculator(id) {
-        const calc = CALCULATORS.find(c => c.id === id);
-        if (calc) form.setAttribute('questionnaire', calc.url);
+        CALCULATORS.forEach(c => {
+          document.getElementById('calc-form-' + c.id).hidden = (c.id !== id);
+        });
+        if (clipboard) clipboard.setAttribute('for', 'calc-form-' + id);
         resultPanel.classList.remove('visible');
         resultItems.innerHTML = '';
       }
@@ -1230,8 +2296,6 @@
 
         resultPanel.classList.add('visible');
       }
-
-      form.addEventListener('tiro-update', e => renderResults(e.detail?.response));
 
       // ---- Copy to clipboard ----
       copyBtn.addEventListener('click', () => {
