@@ -6307,6 +6307,11 @@
       setComboValue(CALCULATORS[0].id);
       loadCalculator(CALCULATORS[0].id);
 
+      // ---- Wire tiro-update → renderResults ----
+      document.querySelectorAll('tiro-form-filler').forEach(ff => {
+        ff.addEventListener('tiro-update', e => renderResults(e.detail?.response));
+      });
+
       // ---- Parse FHIR response ----
       function getAnswerText(answer) {
         if (answer.valueDecimal  !== undefined) return String(answer.valueDecimal);
