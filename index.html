@@ -81,6 +81,42 @@
         letter-spacing: 0.01em;
       }
 
+      .header__lang {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .header__lang-sep {
+        color: rgba(255, 255, 255, 0.3);
+        font-size: 0.75rem;
+      }
+
+      .header__lang-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.75rem;
+        font-weight: 600;
+        font-family: "Open Sans", sans-serif;
+        padding: 0.2rem 0.3rem;
+        border-radius: 0.2rem;
+        letter-spacing: 0.05em;
+        transition: color 0.15s;
+      }
+
+      .header__lang-btn:hover {
+        color: rgba(255, 255, 255, 0.85);
+      }
+
+      .header__lang-btn--active {
+        color: #ffffff;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+
       /* ============================================================
          Disclaimer banner
       ============================================================ */
@@ -801,18 +837,21 @@
       </div>
       <div class="header__sep"></div>
       <span class="header__name">ClinIQ</span>
+      <div class="header__lang">
+        <button class="header__lang-btn" data-lang="en">EN</button>
+        <span class="header__lang-sep">|</span>
+        <button class="header__lang-btn" data-lang="nl">NL</button>
+      </div>
     </header>
 
     <!-- ===== Disclaimer banner ===== -->
     <div class="banner" id="banner" role="note">
       <span class="banner__icon">⚠️</span>
       <span class="banner__text">
-        <strong>For informational purposes only.</strong>
-        Scores and results are intended to support professional judgment, not replace it.
-        Always verify against current guidelines and the patient's clinical context.
-        This is not a substitute for qualified medical advice, diagnosis, or treatment.
+        <strong data-i18n="bannerBold">For informational purposes only.</strong>
+        <span data-i18n="bannerBody">Scores and results are intended to support professional judgment, not replace it. Always verify against current guidelines and the patient's clinical context. This is not a substitute for qualified medical advice, diagnosis, or treatment.</span>
       </span>
-      <button class="banner__close" id="banner-close" type="button" aria-label="Dismiss">&#x00D7;</button>
+      <button class="banner__close" id="banner-close" type="button" aria-label="Dismiss" data-i18n-aria-label="bannerDismiss">&#x00D7;</button>
     </div>
 
     <!-- ===== Main ===== -->
@@ -825,14 +864,14 @@
           <div class="card">
             <div class="card__bar">
               <span class="card__bar-label">
-                Magic Clipboard
+                <span data-i18n="magicLabel">Magic Clipboard</span>
                 <span class="info-tip">
                   <svg class="info-tip__icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <circle cx="12" cy="12" r="10"></circle>
                     <line x1="12" y1="8" x2="12" y2="8.5"></line>
                     <line x1="12" y1="11" x2="12" y2="16"></line>
                   </svg>
-                  <span class="info-tip__bubble" role="tooltip">
+                  <span class="info-tip__bubble" role="tooltip" data-i18n="magicTooltip">
                     Paste any free-text clinical report here. The Magic Clipboard will read it and automatically fill in the matching fields in the calculator.
                   </span>
                 </span>
@@ -840,18 +879,18 @@
             </div>
             <div class="card__body">
               <tiro-magic-clipboard id="magic-clipboard" for="calc-form-tri">
-                <tiro-magic-clipboard-button>Autofill calculator</tiro-magic-clipboard-button>
+                <tiro-magic-clipboard-button data-i18n="magicBtn">Autofill calculator</tiro-magic-clipboard-button>
               </tiro-magic-clipboard>
             </div>
           </div>
 
           <!-- CTA card -->
           <div class="card card--cta">
-            <p class="cta__eyebrow">Tiro.health</p>
-            <p class="cta__title">Bring AI-assisted documentation to your clinic</p>
-            <p class="cta__desc">Autofill any form from free-text clinical notes! <br>Trusted by clinicians across Belgium and beyond.</p>
+            <p class="cta__eyebrow" data-i18n="ctaEyebrow">Tiro.health</p>
+            <p class="cta__title" data-i18n="ctaTitle">Bring AI-assisted documentation to your clinic</p>
+            <p class="cta__desc" data-i18n="ctaDesc">Autofill any form from free-text clinical notes! Trusted by clinicians across Belgium and beyond.</p>
             <a class="cta__btn" href="https://tiro.health" target="_blank" rel="noopener">
-              Start using Tiro.health today
+              <span data-i18n="ctaBtn">Start using Tiro.health today</span>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
           </div>
@@ -862,7 +901,7 @@
         <div class="card">
           <div class="card__bar">
             <div class="template-sel">
-              <label for="calc-combobox">Calculator</label>
+              <label for="calc-combobox" data-i18n="calcLabel">Calculator</label>
               <div class="combobox">
                 <input
                   class="combobox__input"
@@ -6046,13 +6085,13 @@
           <!-- Result panel (fades in on tiro-update) -->
           <div class="results" id="result-panel">
             <div class="results__header">
-              <span class="results__label">Results</span>
+              <span class="results__label" data-i18n="resultsLabel">Results</span>
               <button class="results__copy" id="copy-btn" type="button">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                 </svg>
-                Copy
+                <span data-i18n-text>Copy</span>
               </button>
             </div>
             <div class="result-list" id="result-items"></div>
@@ -6068,16 +6107,16 @@
       <span class="footer__dot">&middot;</span>
       &copy; <span id="footer-year"></span> Tiro Health
       <span class="footer__dot">&middot;</span>
-      Powered by <a href="https://sdk.tiro.health/web">Tiro Web SDK</a>
+      <span data-i18n="poweredBy">Powered by</span> <a href="https://sdk.tiro.health/web">Tiro Web SDK</a>
     </footer>
 
     <!-- ===== Calculator search modal ===== -->
-    <div class="calc-modal" id="calc-modal" role="dialog" aria-modal="true" aria-label="Select calculator">
+    <div class="calc-modal" id="calc-modal" role="dialog" aria-modal="true" aria-label="Select calculator" data-i18n-aria-label="modalAriaLabel">
       <div class="calc-modal__backdrop" id="calc-modal-backdrop"></div>
       <div class="calc-modal__box">
         <div class="calc-modal__search">
           <svg class="calc-modal__search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input class="calc-modal__input" id="calc-modal-input" type="text" placeholder="Search calculators…" autocomplete="off" spellcheck="false" aria-label="Search calculators">
+          <input class="calc-modal__input" id="calc-modal-input" type="text" placeholder="Search calculators…" autocomplete="off" spellcheck="false" aria-label="Search calculators" data-i18n-placeholder="searchPlaceholder" data-i18n-aria-label="searchAriaLabel">
         </div>
         <ul class="calc-modal__list" id="calc-modal-list" role="listbox"></ul>
       </div>
@@ -6086,6 +6125,69 @@
     <script src="https://cdn.tiro.health/sdk-dev/v0.2.3-dev.0/tiro-web-sdk.iife.js"></script>
 
     <script>
+      const TRANSLATIONS = {
+        en: {
+          bannerBold:        'For informational purposes only.',
+          bannerBody:        'Scores and results are intended to support professional judgment, not replace it. Always verify against current guidelines and the patient\'s clinical context. This is not a substitute for qualified medical advice, diagnosis, or treatment.',
+          bannerDismiss:     'Dismiss',
+          magicLabel:        'Magic Clipboard',
+          magicTooltip:      'Paste any free-text clinical report here. The Magic Clipboard will read it and automatically fill in the matching fields in the calculator.',
+          magicBtn:          'Autofill calculator',
+          ctaEyebrow:        'Tiro.health',
+          ctaTitle:          'Bring AI-assisted documentation to your clinic',
+          ctaDesc:           'Autofill any form from free-text clinical notes! Trusted by clinicians across Belgium and beyond.',
+          ctaBtn:            'Start using Tiro.health today',
+          calcLabel:         'Calculator',
+          resultsLabel:      'Results',
+          copyBtn:           'Copy',
+          copiedBtn:         'Copied!',
+          poweredBy:         'Powered by',
+          searchPlaceholder: 'Search calculators\u2026',
+          searchAriaLabel:   'Search calculators',
+          modalAriaLabel:    'Select calculator',
+          noResults:         'No calculators found',
+          boolYes:           'Yes',
+          boolNo:            'No',
+          calcNames: {
+            tri:        'TRI Score',
+            hasbled:    'HAS-BLED Score',
+            euroscore2: 'EuroSCORE II',
+            chadsvasc:  'CHA\u2082DS\u2082-VASc Score',
+            bmi:        'BMI',
+          },
+        },
+        nl: {
+          bannerBold:        'Enkel ter informatie.',
+          bannerBody:        'Scores en resultaten zijn bedoeld ter ondersteuning van klinisch oordeel, niet ter vervanging ervan. Verifieer altijd aan de hand van actuele richtlijnen en de klinische context van de patiënt. Dit is geen vervanging voor gekwalificeerd medisch advies, diagnose of behandeling.',
+          bannerDismiss:     'Sluiten',
+          magicLabel:        'Magic Clipboard',
+          magicTooltip:      'Plak hier een vrije-tekst klinisch verslag. De Magic Clipboard leest het en vult automatisch de overeenkomende velden in de calculator in.',
+          magicBtn:          'Calculator automatisch invullen',
+          ctaEyebrow:        'Tiro.health',
+          ctaTitle:          'Breng AI-ondersteunde documentatie naar uw kliniek',
+          ctaDesc:           'Vul elk formulier automatisch in vanuit vrije-tekst klinische notities! Vertrouwd door clinici in België en daarbuiten.',
+          ctaBtn:            'Begin vandaag met Tiro.health',
+          calcLabel:         'Calculator',
+          resultsLabel:      'Resultaten',
+          copyBtn:           'Kopi\u00ebren',
+          copiedBtn:         'Gekopi\u00eberd!',
+          poweredBy:         'Aangedreven door',
+          searchPlaceholder: 'Zoek calculators\u2026',
+          searchAriaLabel:   'Zoek calculators',
+          modalAriaLabel:    'Selecteer calculator',
+          noResults:         'Geen calculators gevonden',
+          boolYes:           'Ja',
+          boolNo:            'Nee',
+          calcNames: {
+            tri:        'TRI Score',
+            hasbled:    'HAS-BLED Score',
+            euroscore2: 'EuroSCORE II',
+            chadsvasc:  'CHA\u2082DS\u2082-VASc Score',
+            bmi:        'BMI',
+          },
+        },
+      };
+
       const CALCULATORS = [
         { id: 'tri',        label: 'TRI Score',              resultCount: 3 },
         { id: 'hasbled',    label: 'HAS-BLED Score',         resultCount: 5 },
@@ -6106,7 +6208,45 @@
       let modalActiveIdx = 0;
       let filteredCalcs  = CALCULATORS.slice();
 
-      
+      // ---- Language / i18n ----
+      let currentLang = localStorage.getItem('lang') || 'en';
+
+      function applyLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+        document.documentElement.lang = lang;
+        const t = TRANSLATIONS[lang];
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const key = el.dataset.i18n;
+          if (t[key] !== undefined) el.textContent = t[key];
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+          el.placeholder = t[el.dataset.i18nPlaceholder] ?? el.placeholder;
+        });
+        document.querySelectorAll('[data-i18n-aria-label]').forEach(el => {
+          el.setAttribute('aria-label', t[el.dataset.i18nAriaLabel] ?? el.getAttribute('aria-label'));
+        });
+
+        // Copy button: update text span only, preserve SVG
+        const copyTextSpan = copyBtn.querySelector('[data-i18n-text]');
+        if (copyTextSpan) copyTextSpan.textContent = ' ' + t.copyBtn;
+
+        // Update CALCULATORS labels
+        CALCULATORS.forEach(c => { c.label = t.calcNames[c.id] || c.label; });
+        // Sync combobox display if needed
+        if (typeof renderComboList === 'function') renderComboList();
+
+        // Toggle active state on lang buttons
+        document.querySelectorAll('.header__lang-btn').forEach(btn => {
+          btn.classList.toggle('header__lang-btn--active', btn.dataset.lang === lang);
+        });
+      }
+
+      document.querySelectorAll('.header__lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
+      });
+
       // ---- Footer year ----
       document.getElementById('footer-year').textContent = new Date().getFullYear();
 
@@ -6133,7 +6273,7 @@
       // ---- Calculator search modal ----
       function renderModalList() {
         if (!filteredCalcs.length) {
-          calcModalList.innerHTML = `<li class="calc-modal__empty">No calculators found</li>`;
+          calcModalList.innerHTML = `<li class="calc-modal__empty">${escHtml(TRANSLATIONS[currentLang].noResults)}</li>`;
           return;
         }
         calcModalList.innerHTML = filteredCalcs.map((c, i) => `
@@ -6307,6 +6447,9 @@
       setComboValue(CALCULATORS[0].id);
       loadCalculator(CALCULATORS[0].id);
 
+      // Apply saved language on load (after renderComboList is defined)
+      applyLanguage(currentLang);
+
       // ---- Wire tiro-update → renderResults ----
       document.querySelectorAll('tiro-form-filler').forEach(ff => {
         ff.addEventListener('tiro-update', e => renderResults(e.detail?.response));
@@ -6317,7 +6460,7 @@
         if (answer.valueDecimal  !== undefined) return String(answer.valueDecimal);
         if (answer.valueInteger  !== undefined) return String(answer.valueInteger);
         if (answer.valueString   !== undefined) return answer.valueString;
-        if (answer.valueBoolean  !== undefined) return answer.valueBoolean ? 'Yes' : 'No';
+        if (answer.valueBoolean  !== undefined) return answer.valueBoolean ? TRANSLATIONS[currentLang].boolYes : TRANSLATIONS[currentLang].boolNo;
         if (answer.valueCoding)                 return answer.valueCoding.display || answer.valueCoding.code || '';
         if (answer.valueDate     !== undefined) return answer.valueDate;
         return '';
@@ -6376,7 +6519,7 @@
         const rows = resultItems.querySelectorAll('.result-row');
         if (!rows.length) return;
 
-        const calcLabel = CALCULATORS.find(c => c.id === currentCalcId)?.label || 'Results';
+        const calcLabel = CALCULATORS.find(c => c.id === currentCalcId)?.label || TRANSLATIONS[currentLang].resultsLabel;
         const lines = [calcLabel, ''];
         rows.forEach(row => {
           if (!row.querySelector('.result-row__check')?.checked) return;
@@ -6393,7 +6536,7 @@
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
-            Copied!
+            <span data-i18n-text>${escHtml(TRANSLATIONS[currentLang].copiedBtn)}</span>
           `;
           setTimeout(() => {
             copyBtn.classList.remove('copied');
