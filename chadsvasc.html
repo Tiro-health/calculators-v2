@@ -717,6 +717,19 @@
     </footer>
     </div><!-- /.ehr-content -->
 
-    <script src="https://cdn.tiro.health/sdk-dev/v0.2.3-dev.0/tiro-web-sdk.iife.js"></script>
+    <script src="https://cdn.tiro.health/sdk-dev/v0.2.3-dev.2/tiro-web-sdk.iife.js"></script>
+
+    <script>
+      // Fix: autofill should override existing (dirty) form values
+      const clipboard = document.querySelector('tiro-magic-clipboard[for="chadsvasc-form"]');
+      const form = document.getElementById('chadsvasc-form');
+      if (clipboard && form) {
+        clipboard.addEventListener('tiro-populate-complete', e => {
+          if (e.detail?.response) {
+            form.setResponse(e.detail.response, 'ai', { keepDirtyValues: false });
+          }
+        });
+      }
+    </script>
   </body>
 </html>

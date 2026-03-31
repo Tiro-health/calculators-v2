@@ -6122,7 +6122,7 @@
       </div>
     </div>
 
-    <script src="https://cdn.tiro.health/sdk-dev/v0.2.3-dev.0/tiro-web-sdk.iife.js"></script>
+    <script src="https://cdn.tiro.health/sdk-dev/v0.2.3-dev.2/tiro-web-sdk.iife.js"></script>
 
     <script>
       const TRANSLATIONS = {
@@ -6454,6 +6454,17 @@
       document.querySelectorAll('tiro-form-filler').forEach(ff => {
         ff.addEventListener('tiro-update', e => renderResults(e.detail?.response));
       });
+
+      // ---- Fix: autofill should override existing (dirty) form values ----
+      if (clipboard) {
+        clipboard.addEventListener('tiro-populate-complete', e => {
+          const formFillerId = clipboard.getAttribute('for');
+          const ff = formFillerId && document.getElementById(formFillerId);
+          if (ff && e.detail?.response) {
+            ff.setResponse(e.detail.response, 'ai', { keepDirtyValues: false });
+          }
+        });
+      }
 
       // ---- Parse FHIR response ----
       function getAnswerText(answer) {
