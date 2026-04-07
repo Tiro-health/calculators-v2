@@ -44,6 +44,20 @@
         min-height: 320px;
       }
 
+      .tiro-content-editable-container {
+        border-radius: 0.625rem !important;
+      }
+
+      .ContentEditable__root:has(> p:only-of-type > br:only-child)::before {
+        content: attr(aria-placeholder);
+        font-size: 14px;
+        color: #999;
+        float: left;
+        height: 0;
+        pointer-events: none;
+        user-select: none;
+      }
+
       /* ============================================================
          Header
       ============================================================ */
@@ -839,7 +853,7 @@
               </span>
             </div>
             <div class="card__body">
-              <tiro-magic-clipboard for="calculator-form">
+              <tiro-magic-clipboard for="calculator-form" hide-toolbar placeholder="Paste your clinical report here...">
                 <tiro-magic-clipboard-button>Autofill calculator</tiro-magic-clipboard-button>
               </tiro-magic-clipboard>
             </div>
@@ -931,7 +945,7 @@
       </div>
     </div>
 
-    <script src="https://cdn.tiro.health/sdk-dev/v0.2.3-dev.0/tiro-web-sdk.iife.js"></script>
+    <script src="https://cdn.tiro.health/sdk/next/tiro-web-sdk.iife.js"></script>
 
     <script>
       const CALCULATORS = [
