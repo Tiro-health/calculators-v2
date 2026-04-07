@@ -1052,14 +1052,34 @@
       };
 
       const CALCULATORS = [
-        { id: 'tri',        label: 'TRI Score',              resultCount: 3 },
-        { id: 'hasbled',    label: 'HAS-BLED Score',         resultCount: 5 },
-        { id: 'euroscore2', label: 'EuroSCORE II',           resultCount: 3 },
-        { id: 'chadsvasc',  label: 'CHA₂DS₂-VASc Score',      resultCount: 1 },
-        { id: 'bmi',        label: 'BMI',                    resultCount: 1 },
+        {
+          id: 'tri',
+          label: 'TRI Score',
+          url: 'http://templates.tiro.health/templates/718620a797d84dd58bd2c92d395e0e90',
+          resultCount: 3
+        },
+        {
+          id: 'hasbled',
+          label: 'HAS-BLED Score',
+          url: 'http://templates.tiro.health/templates/71a49276146c4492a9053bfb296d0d17',
+          resultCount: 5
+        },
+        {
+          id: 'euroscore2',
+          label: 'EuroSCORE II',
+          url: 'http://templates.tiro.health/templates/3171b88fff9a4b61af84fe354a26b48b',
+          resultCount: 3
+        },
+        {
+          id: 'chadsvasc',
+          label: 'CHA\u2082DS\u2082-VASc Score',
+          url: 'http://templates.tiro.health/templates/9f1f296ba5ae415f97c8e71464c402df',
+          resultCount: 1
+        },
       ];
 
       // ---- Elements ----
+      const form            = document.getElementById('calculator-form');
       const resultPanel     = document.getElementById('result-panel');
       const resultItems     = document.getElementById('result-items');
       const copyBtn         = document.getElementById('copy-btn');
@@ -1121,14 +1141,10 @@
         setTimeout(() => banner.remove(), 210);
       });
 
-      const clipboard = document.getElementById('magic-clipboard');
-
       // ---- Load calculator ----
       function loadCalculator(id) {
-        CALCULATORS.forEach(c => {
-          document.getElementById('calc-form-' + c.id).hidden = (c.id !== id);
-        });
-        if (clipboard) clipboard.setAttribute('for', 'calc-form-' + id);
+        const calc = CALCULATORS.find(c => c.id === id);
+        if (calc) form.setAttribute('questionnaire', calc.url);
         resultPanel.classList.remove('visible');
         resultItems.innerHTML = '';
       }
