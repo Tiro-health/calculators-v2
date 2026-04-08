@@ -1308,6 +1308,7 @@
       let lastPasteAt = null;
       let allFieldsComplete = false;
       let justCompletedAutofill = false;
+      let pageViewCaptured = false;
       const autofilledFieldIds = new Set();
       const latestItemByLinkId = new Map();
 
@@ -1385,6 +1386,15 @@
       function captureEvent(name, props = {}) {
         if (!window.posthog?.capture) return;
         window.posthog.capture(name, props);
+      }
+
+      function capturePageView() {
+        if (pageViewCaptured) return;
+        pageViewCaptured = true;
+        captureEvent('calculator_page_viewed', {
+          calculator_name: getCalculatorName(),
+          page_path: window.location.pathname || '/',
+        });
       }
 
       function getTrackedFields() {
@@ -2068,6 +2078,7 @@
 
       // Apply saved language on load (after renderComboList is defined)
       applyLanguage(currentLang);
+      capturePageView();
 
       // ---- Wire tiro-update → renderResults + field highlights ----
       document.querySelectorAll('tiro-form-filler').forEach(ff => {
@@ -2197,8 +2208,14 @@
           lines.push(`${lbl}: ${val}`);
         });
         if (lines.length <= 2) return;
+        const selectedRows = lines.length - 2;
 
         navigator.clipboard.writeText(lines.join('\n')).then(() => {
+          captureEvent('results_copied', {
+            calculator_name: getCalculatorName(),
+            selected_result_rows: selectedRows,
+            used_autofill: autofillUsedInSession,
+          });
           const originalHTML = copyBtn.innerHTML;
           copyBtn.classList.remove('results__copy--attention');
           copyBtn.classList.add('copied');
