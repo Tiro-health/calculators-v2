@@ -981,9 +981,9 @@
       <div class="header__sep"></div>
       <span class="header__name">ClinIQ</span>
       <div class="header__lang">
-        <button class="header__lang-btn" data-lang="en">EN</button>
+        <button class="header__lang-btn" data-lang="en" data-ph-capture-attribute-language="en">EN</button>
         <span class="header__lang-sep">|</span>
-        <button class="header__lang-btn" data-lang="nl">NL</button>
+        <button class="header__lang-btn" data-lang="nl" data-ph-capture-attribute-language="nl">NL</button>
       </div>
     </header>
 
@@ -1020,7 +1020,7 @@
             </div>
             <div class="card__body">
               <tiro-magic-clipboard for="calculator-form" hide-toolbar data-i18n-placeholder="autofillPlaceholder" placeholder="Plak hier uw verslag en extraheer automatisch data voor de berekening">
-                <tiro-magic-clipboard-button data-i18n="autofillBtn">Verslag verwerken</tiro-magic-clipboard-button>
+                <tiro-magic-clipboard-button id="autofill-btn" data-i18n="autofillBtn">Verslag verwerken</tiro-magic-clipboard-button>
               </tiro-magic-clipboard>
               <p class="autofill-meta" id="autofill-meta" aria-live="polite"></p>
             </div>
@@ -1809,7 +1809,8 @@
         }
         calcModalList.innerHTML = filteredCalcs.map((c, i) => `
           <li class="calc-modal__item${i === modalActiveIdx ? ' calc-modal__item--active' : ''}${c.id === currentCalcId ? ' calc-modal__item--current' : ''}"
-              role="option" aria-selected="${i === modalActiveIdx}" data-id="${c.id}">
+              role="option" aria-selected="${i === modalActiveIdx}" data-id="${c.id}"
+              data-ph-capture-attribute-calculator="${c.id}">
             ${escHtml(c.label)}
           </li>`).join('');
       }
@@ -1902,7 +1903,8 @@
         }
         comboList.innerHTML = comboFiltered.map((c, i) => `
           <li class="combobox__option${i === comboActive ? ' combobox__option--active' : ''}"
-              role="option" data-id="${c.id}" aria-selected="${i === comboActive}">
+              role="option" data-id="${c.id}" aria-selected="${i === comboActive}"
+              data-ph-capture-attribute-calculator="${c.id}">
             ${escHtml(c.label)}
           </li>`).join('');
       }
